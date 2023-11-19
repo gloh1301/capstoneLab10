@@ -133,3 +133,28 @@ class TestVideoModel(TestCase):
         v1 = Video.objects.create(name='abc', notes='example', url='https://www.youtube.com/watch?v=123')
         with self.assertRaises(IntegrityError):
             Video.objects.create(name='abc', notes='example', url='https://www.youtube.com/watch?v=123')
+
+
+class TestVideoDetail(TestCase):
+    def test_show_video_information(self):
+        test_video = {
+            'name': 'abc',
+            'url': 'https://www.youtube.com/watch?v=123',
+            'notes': 'example notes'
+        }
+
+        url = reverse('video_detail')
+        response = self.client.get(url, data=test_video)
+        # Check correct template was used
+        self.assertTemplateUsed(response, 'video_collection/video_detail.html')
+
+        # What data was sent to the template?
+        # data_rendered = response.context['video']
+
+        # Same as data sent to template?
+        # self.assertEqual(data_rendered, test_video)
+
+        # and correct data shown on page?
+        self.assertContains(response, 'abc')
+        self.assertContains(response, 'example notes')
+        self.assertContains(response, 'https://www.youtube.com/watch?v=123')

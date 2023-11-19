@@ -1,0 +1,18 @@
+{% extends 'video_collection/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>{{ video.name }}</h2>
+
+<iframe width="420" height="315" src="https://youtube.com/embed/{{ video.video_id }}"></iframe>
+
+<h3>URL</h3>
+<p>{{ video.url }}</p>
+
+<h3>Notes</h3>
+{% if video.notes %}
+    <p>{{ video.notes|default:"No notes." }}</p>
+{% endif %}
+
+{% endblock %}
